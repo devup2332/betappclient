@@ -1,13 +1,17 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CloseEyeIcon, EyeIcon, LoadingIcon, UserIcon } from "../components/atoms/icons";
 import { SnackBar } from "../components/organism";
+import { loginUser } from "../lib/api/login";
 
 let timer: NodeJS.Timer | undefined;
 
 const LoginPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [open, setOpen] = useState(false);
   const {
@@ -16,8 +20,15 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
-  const loginUser = (data: any) => {
-    console.log(data);
+  const submitLogin = async (data: any) => {
+    setLoading(true);
+    const { message: res_message, token } = await loginUser(data);
+    if (token) {
+      setLoading(false);
+      return router.push("/");
+    }
+    setMessage(res_message);
+    setLoading(false);
     if (timer) clearTimeout(timer);
     setOpen(true);
     timer = setTimeout(() => {
@@ -28,6 +39,12 @@ const LoginPage = () => {
   const handleError = (err: any) => {
     console.log(err);
   };
+
+  useEffect(() => {
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
   return (
     <>
       <Head>
@@ -41,14 +58,14 @@ const LoginPage = () => {
         <div className="grid gap-10 w-4/5 max-w-sm md:rounded-xl md:shadow-card md:p-10">
           <h1 className="text-4xl font-bold text-center ">BIENVENIDO</h1>
 
-          <form className="grid gap-5 md:gap-8" onSubmit={handleSubmit(loginUser, handleError)}>
+          <form className="grid gap-5 md:gap-8" onSubmit={handleSubmit(submitLogin, handleError)}>
             <div>
-              <div className="flex justify-between border-2 border-black rounded-md py-2  px-3">
+              <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-3">
                 <input
                   type="text"
                   placeholder="Usuario"
                   autoComplete="off"
-                  className="outline-none placeholder:text-black text-sm md:text-base"
+                  className="outline-none placeholder:text-black text-sm md:text-base w-full"
                   {...register("username", {
                     required: {
                       value: true,
@@ -61,12 +78,12 @@ const LoginPage = () => {
               {errors.username && <p className="text-danger text-sm font-bold mt-1">{errors.username?.message}</p>}
             </div>
             <div>
-              <div className="flex justify-between border-2 border-black rounded-md py-2  px-3">
+              <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-3">
                 <input
                   type={showPass ? "text" : "password"}
                   placeholder="Contraseña"
                   autoComplete="off"
-                  className="outline-none placeholder:text-black text-sm md:text-base"
+                  className="outline-none placeholder:text-black text-sm md:text-base w-full"
                   {...register("password", {
                     required: {
                       value: true,
@@ -99,7 +116,7 @@ const LoginPage = () => {
             </button>
           </form>
         </div>
-        <SnackBar message="El servidor aun no esta listo" open={open} setOpen={setOpen} />
+        <SnackBar message={message} open={open} setOpen={setOpen} />
       </div>
     </>
   );
