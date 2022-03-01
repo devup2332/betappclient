@@ -13,7 +13,7 @@ const SnackBar = ({ message, open, setOpen }: SnackBarProps) => {
   };
   return (
     <div
-      className="transition-all fixed -bottom-20 left-0 right-0 m-auto w-4/5 max-w-sm md:max-w-xs shadow-card rounded-md py-3 px-5 flex justify-between items-center"
+    className="bg-white transition-all fixed -bottom-20 left-0 right-0 m-auto w-4/5 max-w-sm md:max-w-xs shadow-card rounded-md py-3 px-5 flex justify-between items-center"
       style={{ transform: open ? "translateY(-120px)" : "translateY(0px)" }}
     >
       <span className="text-sm md:text-base">{message}</span>
