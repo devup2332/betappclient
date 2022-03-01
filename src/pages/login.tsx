@@ -2,10 +2,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CloseEyeIcon, EyeIcon, LoadingIcon, UserIcon } from "../components/atoms/icons";
+import {
+  CloseEyeIcon,
+  EyeIcon,
+  LoadingIcon,
+  UserIcon,
+} from "../components/atoms/icons";
 import { SnackBar } from "../components/organism";
 import withOutAuth from "../hoocs/withOutAuth";
 import { loginUser } from "../lib/api/login";
+import { useUserLogged } from "../providers/userLoggedProvider";
 
 let timer: NodeJS.Timer | undefined;
 const LoginPage = () => {
@@ -58,28 +64,7 @@ const LoginPage = () => {
       <div className="relative h-screen bg-primary flex justify-center items-center font-roboto">
         <div className="grid gap-10 w-4/5 bg-white max-w-sm md:rounded-xl md:shadow-card md:p-10">
           <h1 className="text-4xl font-bold text-center ">BIENVENIDO</h1>
-
-          <form className="grid gap-5 md:gap-8" onSubmit={handleSubmit(submitLogin, handleError)}>
-            <div>
-              <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-3">
-                <input
-                  type="text"
-                  placeholder="Usuario"
-                  autoComplete="off"
-                  className="outline-none placeholder:text-black text-sm md:text-base w-full"
-                  {...register("username", {
-                    required: {
-                      value: true,
-                      message: "Ingrese el usuario",
-                    },
-                  })}
-                />
-                <UserIcon className="text-black stroke-current w-5" />
-              </div>
-              {errors.username && (
-                <p className="text-danger text-sm font-bold mt-1">{errors.username?.message}</p>
-              )}
-            </div>
+          <form>
             <div>
               <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-3">
                 <input
@@ -107,7 +92,9 @@ const LoginPage = () => {
                 )}
               </div>
               {errors.password && (
-                <p className="text-danger text-sm font-bold mt-1">{errors.password?.message}</p>
+                <p className="text-danger text-sm font-bold mt-1">
+                  {errors.password?.message}
+                </p>
               )}
             </div>
             <button
