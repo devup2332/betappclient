@@ -7,8 +7,11 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((conf) => {
-  const token = "dsadsad";
+  const token = localStorage.getItem("token-api");
   conf.headers = {
     Authorization: `Bearer ${token}`,
   };
+  return conf;
 });
+
+export default instance;
