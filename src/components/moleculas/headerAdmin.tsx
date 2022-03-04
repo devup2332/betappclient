@@ -20,7 +20,6 @@ const HeaderAdmin = ({ section }: HeaderAdminProps) => {
           <IconBell className="w-7 text-black fill-current lg:w-9" />
 
           <span className="block absolute w-2.5 h-2.5 bg-danger rounded-full right-0 top-0"></span>
-        </button>
         <button className="cursor-pointer lg:hidden" onClick={openNav}>
           <IconMenu className="w-7 text-black fill-current " />
         </button>
