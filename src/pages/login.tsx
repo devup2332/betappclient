@@ -11,7 +11,6 @@ import {
 import { SnackBar } from "../components/organism";
 import withOutAuth from "../hoocs/withOutAuth";
 import { loginUser } from "../lib/api/login";
-import { useUserLogged } from "../providers/userLoggedProvider";
 
 let timer: NodeJS.Timer | undefined;
 const LoginPage = () => {
