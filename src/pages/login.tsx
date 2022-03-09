@@ -55,8 +55,8 @@ const LoginPage = () => {
         />
         <title>Login - BetApp</title>
       </Head>
-      <div className="relative h-screen flex justify-center items-center font-roboto">
-        <div className="grid gap-10 w-4/5 max-w-sm md:rounded-xl md:shadow-card md:p-10">
+      <div className="relative h-screen bg-primary flex justify-center items-center font-roboto">
+        <div className="grid gap-10 w-4/5 bg-white max-w-sm md:rounded-xl md:shadow-card md:p-10">
           <h1 className="text-4xl font-bold text-center ">BIENVENIDO</h1>
 
           <form className="grid gap-5 md:gap-8" onSubmit={handleSubmit(submitLogin, handleError)}>
