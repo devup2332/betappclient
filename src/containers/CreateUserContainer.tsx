@@ -83,7 +83,7 @@ const CreateUserContainer = () => {
 
     return (
         <div
-            className="p-5 grid gap-5 max-w-sm m-auto  lg:max-w-none lg:px-10 lg:gap-16 lg:mt-12 2xl:grid-cols-2"
+            className="p-5 grid gap-5 max-w-sm m-auto  lg:max-w-none lg:px-10 lg:gap-16 lg:mt-12 xl:gap-32 xl:px-40 2xl:grid-cols-2"
             onClick={handleGeneralClick}
         >
             <FormCreateUsers

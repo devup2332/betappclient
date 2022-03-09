@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SnackBar } from ".";
 import { changeUserPassword } from "../../lib/api/changeUserPassword";
-import { CloseEyeIcon, EyeIcon, IconClose, IconSave, LoadingIcon } from "../atoms/icons";
+import {
+  CloseEyeIcon,
+  EyeIcon,
+  IconClose,
+  IconSave,
+  LoadingIcon,
+} from "../atoms/icons";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -66,15 +72,22 @@ const ChangePasswordModal = ({ open, setOpen }: ChangePasswordModalProps) => {
       }}
       onClick={closeModal}
     >
-      <div ref={containerModalRef} className="w-10/12 bg-white rounded-md p-5 grid gap-5 max-w-modal lg:p-10 lg:gap-10">
+      <div
+        ref={containerModalRef}
+        className="w-10/12 bg-white rounded-md p-5 grid gap-5 max-w-modal lg:p-10 lg:gap-10"
+      >
         <div className="text-black flex justify-between">
           <h1 className="text-2xl font-bold lg:text-4xl">Cambiar Contrasena</h1>
           <button className="cursor-pointer" onClick={() => setOpen(false)}>
             <IconClose className="w-5 fill-current " />
           </button>
         </div>
-        <form onSubmit={handleSubmit(changePassword)} className="grid gap-5 lg:gap-10">
-          <div>
+        <form
+          onSubmit={handleSubmit(changePassword)}
+          className="grid gap-5 lg:gap-10"
+        >
+          <div className="grid gap-2">
+            <label className="font-bold text-sm">Contrasena Actual</label>
             <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-5">
               <input
                 type={showPass ? "text" : "password"}
@@ -101,10 +114,13 @@ const ChangePasswordModal = ({ open, setOpen }: ChangePasswordModalProps) => {
               )}
             </div>
             {errors.currentPassword && (
-              <p className="text-danger text-sm font-bold mt-1 lg:text-base">{errors.currentPassword?.message}</p>
+              <p className="text-danger text-sm font-bold mt-1 lg:text-base">
+                {errors.currentPassword?.message}
+              </p>
             )}
           </div>
-          <div>
+          <div className="grid gap-2">
+            <label className="font-bold text-sm">Nueva Contrasena</label>
             <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-5">
               <input
                 type={showPass ? "text" : "password"}
@@ -139,10 +155,13 @@ const ChangePasswordModal = ({ open, setOpen }: ChangePasswordModalProps) => {
               )}
             </div>
             {errors.password && (
-              <p className="text-danger text-sm font-bold mt-1 lg:text-base">{errors.password?.message}</p>
+              <p className="text-danger text-sm font-bold mt-1 lg:text-base">
+                {errors.password?.message}
+              </p>
             )}
           </div>
-          <div>
+          <div className="grid gap-2">
+            <label className="text-sm font-bold">Verifique la contrasena</label>
             <div className="flex justify-between border-2 border-black rounded-md py-2 gap-3 px-5">
               <input
                 type={showPass ? "text" : "password"}
@@ -156,14 +175,19 @@ const ChangePasswordModal = ({ open, setOpen }: ChangePasswordModalProps) => {
                   },
                   validate: {
                     samePassword: (pass) => {
-                      return watch("password") === pass || "Las contrasenas no son iguales";
+                      return (
+                        watch("password") === pass ||
+                        "Las contrasenas no son iguales"
+                      );
                     },
                   },
                 })}
               />
             </div>
             {errors.password_2 && (
-              <p className="text-danger text-sm font-bold mt-1 lg:text-base">{errors.password_2?.message}</p>
+              <p className="text-danger text-sm font-bold mt-1 lg:text-base">
+                {errors.password_2?.message}
+              </p>
             )}
           </div>
           <button
@@ -179,7 +203,11 @@ const ChangePasswordModal = ({ open, setOpen }: ChangePasswordModalProps) => {
           </button>
         </form>
       </div>
-      <SnackBar message={message} open={openSnackBar} setOpen={setOpenSnackBar} />
+      <SnackBar
+        message={message}
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+      />
     </div>
   );
 };

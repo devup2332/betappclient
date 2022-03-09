@@ -20,7 +20,7 @@ const BaseAdmin = ({ children, section, header }: BaseAdminProps) => {
             </Head>
             <div className="flex">
                 <AdminSidenav />
-                <div className="w-full h-screen lg:py-10 lg:max-w-xl overflow-y-auto ">
+                <div className="w-full h-screen lg:py-10 overflow-y-auto max-w-sm m-auto lg:max-w-none lg:m-none">
                     {header}
                     {children}
                 </div>
