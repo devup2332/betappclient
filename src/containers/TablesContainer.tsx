@@ -5,7 +5,10 @@ import TableData from "../components/organism/tableData";
 import { validateExcel } from "../lib/utils/validateExcel";
 import { ItemDataExcel } from "../lib/models/itemDataExcel";
 import { useSnackbar } from "../providers/snackbarProvider";
+<<<<<<< HEAD
 import { useRouter } from "next/router";
+=======
+>>>>>>> 79a42dc (CU-Creacion-tabla-excel: Added new table and schema to handler excel data)
 
 const events = ["dragleave", "drop", "dragenter", "drag", "dragover"];
 let timer: NodeJS.Timer | undefined;
@@ -24,11 +27,14 @@ const TablesContainer = () => {
     e.stopPropagation();
   };
 
+<<<<<<< HEAD
   const goToPlayPage = () => {
     localStorage.setItem("data_table_1", JSON.stringify(dataTable));
     router.push("/dashboard/plays");
   };
 
+=======
+>>>>>>> 79a42dc (CU-Creacion-tabla-excel: Added new table and schema to handler excel data)
   const readFile = async (e: DragEvent) => {
     if (timer) clearTimeout(timer);
     const file = e.dataTransfer?.files[0];
@@ -38,7 +44,11 @@ const TablesContainer = () => {
       configMessage("Solo se aceptan archivos excel");
       openSnack(true);
       timer = setTimeout(() => {
+<<<<<<< HEAD
         configMessage("");
+=======
+        configMessage('') 
+>>>>>>> 79a42dc (CU-Creacion-tabla-excel: Added new table and schema to handler excel data)
         openSnack(false);
       }, 5000);
       return;
@@ -60,7 +70,10 @@ const TablesContainer = () => {
     setDataTable(res.rows);
   };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 79a42dc (CU-Creacion-tabla-excel: Added new table and schema to handler excel data)
   useEffect(() => {
     events.forEach((name) => {
       dropzone.current?.addEventListener(name, preventsDefault);
