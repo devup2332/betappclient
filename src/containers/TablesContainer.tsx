@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import readXlsxFile, { Row } from "read-excel-file";
-import { SnackBar } from "../components/organism";
+import { schema } from "../lib/utils/schemaExcel";
 import TableData from "../components/organism/tableData";
 import { validateExcel } from "../lib/utils/validateExcel";
+import { ItemDataExcel } from "../lib/models/itemDataExcel";
+import { useSnackbar } from "../providers/snackbarProvider";
 
 const events = ["dragleave", "drop", "dragenter", "drag", "dragover"];
 let timer: NodeJS.Timer | undefined;
 
 const TablesContainer = () => {
   const [enter, setEnter] = useState(false);
-  const [dataTable, setDataTable] = useState<[string[]]>([[]]);
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [message, setMessage] = useState("");
+  const { openSnack, configMessage } = useSnackbar();
+  const [dataTable, setDataTable] = useState<ItemDataExcel[]>([]);
+  const [headerTable, setHeaderTable] = useState<Row>([]);
   const inputFile = useRef<HTMLInputElement>(null);
   const dropzone = useRef<HTMLDivElement>(null);
 
@@ -20,32 +22,37 @@ const TablesContainer = () => {
     e.stopPropagation();
   };
 
-  const readImage = async (e: DragEvent) => {
+  const readFile = async (e: DragEvent) => {
     if (timer) clearTimeout(timer);
     const file = e.dataTransfer?.files[0];
     if (!file) return;
     const valid = validateExcel(file);
     if (!valid) {
-      setMessage("Solo se aceptan archivos excel");
-      setOpenSnackBar(true);
+      configMessage("Solo se aceptan archivos excel");
+      openSnack(true);
       timer = setTimeout(() => {
-        setMessage("");
-        setOpenSnackBar(false);
+        configMessage('') 
+        openSnack(false);
       }, 5000);
+      return;
     }
-
-    const res = (await readXlsxFile(file)) as [string[]];
+    const res = await readXlsxFile<ItemDataExcel>(file, { sheet: 2, schema });
+    const [header] = await readXlsxFile(file, { sheet: 2 });
     if (!res) return;
-    setDataTable(res);
+    setHeaderTable(header);
+    setDataTable(res.rows);
   };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const res = (await readXlsxFile(file)) as [string[]];
+    const res = await readXlsxFile<ItemDataExcel>(file, { sheet: 2, schema });
+    const [header] = await readXlsxFile(file, { sheet: 2 });
     if (!res) return;
-    setDataTable(res);
+    setHeaderTable(header);
+    setDataTable(res.rows);
   };
+
   useEffect(() => {
     events.forEach((name) => {
       dropzone.current?.addEventListener(name, preventsDefault);
@@ -58,7 +65,7 @@ const TablesContainer = () => {
       dropzone.current?.addEventListener(name, () => setEnter(false));
     });
 
-    dropzone.current?.addEventListener("drop", readImage);
+    dropzone.current?.addEventListener("drop", readFile);
     return () => {
       if (timer) {
         clearTimeout(timer);
@@ -82,18 +89,20 @@ const TablesContainer = () => {
           onChange={handleFile}
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         />
-        <span className="font-bold text-xs lg:text-base">Ingrese su archivo excel aqui</span>
+        <span className="font-bold text-xs lg:text-base">
+          Ingrese su archivo excel aqui
+        </span>
       </div>
       {dataTable.length > 1 && (
         <div className="overflow-auto h-96 scrollbar-styles">
-          <TableData data={dataTable} />
+          <TableData header={headerTable} data={dataTable} />
         </div>
       )}
-      <SnackBar
-        open={openSnackBar}
-        setOpen={setOpenSnackBar}
-        message={message}
-      />
+      {dataTable.length > 1 && (
+        <button className="bg-primary outline-none text-white font-montserrat py-3 rounded-md font-bold hover:bg-white transition-all hover:text-black shadow-button ">
+          Generar Jugadas
+        </button>
+      )}
     </div>
   );
 };
