@@ -5,11 +5,11 @@ import withAuth from "../../hoocs/withAuth";
 import BaseAdmin from "../../layouts/baseAdmin";
 
 const TablesPage = () => {
-    return (
-        <BaseAdmin section="Tablas" header={<HeaderAdmin section="Tablas" />}>
-            <TablesContainer />
-        </BaseAdmin>
-    );
+  return (
+    <BaseAdmin section="Tablas" header={<HeaderAdmin section="Tablas" />}>
+      <TablesContainer />
+    </BaseAdmin>
+  );
 };
 
 export default withAuth(TablesPage);
