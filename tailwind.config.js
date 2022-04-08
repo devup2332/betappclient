@@ -29,8 +29,13 @@ module.exports = {
         bgbutton: "rgba(0,0,0,0.2)",
       },
       gridTemplateColumns: {
+        8: "repeat(8, 1fr)",
+        9: "repeat(9, 1fr)",
         14: "repeat(14, 1fr)",
         17: "repeat(17, 1fr)",
+      },
+      height: {
+        700: "700px",
       },
     },
   },

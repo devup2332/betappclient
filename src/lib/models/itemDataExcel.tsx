@@ -8,12 +8,13 @@ export interface ItemDataExcel {
   coute1: string;
   coute2: string;
   couteX: string;
-  date: Date;
+  date: Date | string;
   draw: string;
   game: string;
   liga: string;
   "over1.5": string;
   "over2.5": string;
   prediction: string;
-  time: string;
+  time?: string;
+  combination?: number;
 }

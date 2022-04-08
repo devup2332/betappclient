@@ -5,6 +5,7 @@ import TableData from "../components/organism/tableData";
 import { validateExcel } from "../lib/utils/validateExcel";
 import { ItemDataExcel } from "../lib/models/itemDataExcel";
 import { useSnackbar } from "../providers/snackbarProvider";
+import { useRouter } from "next/router";
 
 const events = ["dragleave", "drop", "dragenter", "drag", "dragover"];
 let timer: NodeJS.Timer | undefined;
@@ -16,10 +17,16 @@ const TablesContainer = () => {
   const [headerTable, setHeaderTable] = useState<Row>([]);
   const inputFile = useRef<HTMLInputElement>(null);
   const dropzone = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const preventsDefault = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const goToPlayPage = () => {
+    localStorage.setItem("data_table_1", JSON.stringify(dataTable));
+    router.push("/dashboard/plays");
   };
 
   const readFile = async (e: DragEvent) => {
@@ -31,7 +38,7 @@ const TablesContainer = () => {
       configMessage("Solo se aceptan archivos excel");
       openSnack(true);
       timer = setTimeout(() => {
-        configMessage('') 
+        configMessage("");
         openSnack(false);
       }, 5000);
       return;
@@ -52,6 +59,7 @@ const TablesContainer = () => {
     setHeaderTable(header);
     setDataTable(res.rows);
   };
+
 
   useEffect(() => {
     events.forEach((name) => {
@@ -99,7 +107,10 @@ const TablesContainer = () => {
         </div>
       )}
       {dataTable.length > 1 && (
-        <button className="bg-primary outline-none text-white font-montserrat py-3 rounded-md font-bold hover:bg-white transition-all hover:text-black shadow-button ">
+        <button
+          onClick={goToPlayPage}
+          className="bg-primary outline-none text-white font-montserrat py-3 rounded-md font-bold hover:bg-white transition-all hover:text-black shadow-button "
+        >
           Generar Jugadas
         </button>
       )}
