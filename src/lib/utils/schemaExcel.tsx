@@ -37,8 +37,8 @@ export const schema = {
     type: (value: Date) => {
       const time = value.toUTCString().replace(" GMT", "");
       const res = new Date(time);
-      return `${res.getHours() < 10 ? `0${res.getHours()}:` : res.getHours()}:${
-        res.getMinutes() < 10 ? `0${res.getMinutes()}:` : res.getMinutes()
+      return `${res.getHours() < 10 ? `0${res.getHours()}` : res.getHours()}:${
+        res.getMinutes() < 10 ? `0${res.getMinutes()}` : res.getMinutes()
       }`;
     },
     prop: "time",
