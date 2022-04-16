@@ -30,6 +30,14 @@ const PlaysContainer = () => {
   }, []);
   return (
     <div className="px-5 pt-5 font-montserrat grid gap-10 lg:px-10 xl:px-40 pt-20">
+      <div className="grid gap-3">
+        <label className="font-bold">Factor</label>
+        <input
+          placeholder="Factor"
+          type="text"
+          className="px-4 border-2 border-black h-10"
+        />
+      </div>
       <div className="overflow-x-auto scrollbar-styles overflow-y-auto h-700">
         <table className="w-table-3 relative">
           <thead>
@@ -79,8 +87,7 @@ const PlaysContainer = () => {
                   <th></th>
                   <th>
                     <div className="form-check">
-                      <input type='checkbox'>
-                      </input>
+                      <input type="checkbox"></input>
                     </div>
                   </th>
                 </tr>
